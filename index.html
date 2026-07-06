@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="styles.css">
 
   <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@latest" defer></script>
 </head>
 <body>
 
@@ -663,7 +663,9 @@ app = FastAPI()
 
   <!-- Lucide script initialization -->
   <script>
-    lucide.createIcons();
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
   </script>
   <script src="script.js"></script>
 </body>
