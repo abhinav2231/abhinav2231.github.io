@@ -349,32 +349,59 @@ document.addEventListener('DOMContentLoaded', () => {
       isValid = validateInput(messageInput, 'message-error', messageInput.value.trim().length > 0) && isValid;
       
       if (isValid) {
-        // Mocking an async submit process
         const submitBtn = contactForm.querySelector('.submit-btn');
         const submitBtnText = submitBtn.querySelector('span');
-        
+
         submitBtn.disabled = true;
         submitBtnText.textContent = 'Sending...';
 
-        // Save message locally in localStorage
-        const newMsg = {
-          id: Date.now(),
+        // Collect form data
+        const formData = {
+          access_key: '72037a9d-0fcf-44f4-9cab-41f3645eb708',
           name: nameInput.value.trim(),
           email: emailInput.value.trim(),
           subject: subjectInput.value.trim(),
           message: messageInput.value.trim(),
+          from_name: 'Portfolio Contact Form'
+        };
+
+        // Save message locally in localStorage (for admin panel)
+        const newMsg = {
+          id: Date.now(),
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
           date: new Date().toLocaleString()
         };
         const currentMessages = JSON.parse(localStorage.getItem('portfolio_messages') || '[]');
         currentMessages.push(newMsg);
         localStorage.setItem('portfolio_messages', JSON.stringify(currentMessages));
-        
-        setTimeout(() => {
-          createToast('Message Sent Successfully!', 'Thank you! Abhinav will get back to you shortly.', 'success');
-          contactForm.reset();
+
+        // Send email via Web3Forms API
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(formData)
+        })
+        .then(async res => {
+          const data = await res.json();
+          if (res.ok && data.success) {
+            createToast('Message Sent!', 'Thank you! Abhinav will get back to you shortly.', 'success');
+            contactForm.reset();
+          } else {
+            createToast('Delivery Issue', 'Message saved locally. Please try again shortly.', 'error');
+          }
+        })
+        .catch(() => {
+          // Still saved locally — inform user
+          createToast('Offline — Saved Locally', 'Check your internet connection. Message stored for admin review.', 'error');
+        })
+        .finally(() => {
           submitBtn.disabled = false;
           submitBtnText.textContent = 'Send Message';
-        }, 1500);
+        });
+
       } else {
         createToast('Submission Error', 'Please check highlighted fields and try again.', 'error');
       }
