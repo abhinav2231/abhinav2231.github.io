@@ -547,4 +547,38 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ==========================================================================
+  // 3D Pop-up Card Tilt Effect (Smooth cursor hover interaction)
+  // ==========================================================================
+  const tiltCards = document.querySelectorAll('.project-card, .hero-profile-card, .stat-item, .skill-group, .contact-card');
+
+  tiltCards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left; // x position within the element
+      const y = e.clientY - rect.top;  // y position within the element
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      // Maximum angles of rotation (degrees)
+      const maxRotateX = 10;
+      const maxRotateY = 10;
+      
+      // Calculate rotation angles based on cursor offset from center
+      const rotateX = ((centerY - y) / centerY) * maxRotateX;
+      const rotateY = ((x - centerX) / centerX) * maxRotateY;
+      
+      // Apply the 3D rotation, scaling, and Translation smoothly
+      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.03, 1.03, 1.03) translateY(-4px)`;
+      card.style.transition = 'transform 0.08s ease-out'; // High precision tracking
+    });
+
+    card.addEventListener('mouseleave', () => {
+      // Return smoothly to flat default state
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateY(0)';
+      card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+    });
+  });
 });

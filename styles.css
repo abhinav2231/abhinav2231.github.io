@@ -2076,4 +2076,26 @@ footer {
   height: 24px;
 }
 
+/* 3D preserve depth rules */
+.project-card, .hero-profile-card, .stat-item, .skill-group, .contact-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Elevate children elements in 3D perspective space */
+.project-card .project-image-wrapper, 
+.project-card .project-info,
+.hero-profile-card .hero-profile-img-wrapper,
+.hero-profile-card .hero-profile-badge,
+.stat-item span,
+.skill-group .skill-header,
+.skill-group .skill-tags,
+.contact-card svg,
+.contact-card i,
+.contact-card div {
+  transform: translateZ(20px);
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+}
+
 
