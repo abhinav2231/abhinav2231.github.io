@@ -653,29 +653,10 @@ app = FastAPI()
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="social-svg-icon"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
           </a>
         </div>
-        <button id="view-messages-btn" class="footer-admin-btn"><i data-lucide="inbox"></i> View Messages</button>
         <a href="#home" class="back-to-top">Back to Top <i data-lucide="chevrons-up"></i></a>
       </div>
     </div>
   </footer>
-
-  <!-- Admin Messages Inbox Modal -->
-  <div id="admin-messages-modal" class="admin-modal-overlay">
-    <div class="admin-modal-content glass">
-      <div class="admin-modal-header">
-        <h3><i data-lucide="inbox"></i> Contact Messages Inbox</h3>
-        <div class="admin-modal-controls">
-          <button id="clear-messages-btn" class="btn-clear"><i data-lucide="trash-2"></i> Clear All</button>
-          <button id="close-messages-btn" class="btn-close"><i data-lucide="x"></i></button>
-        </div>
-      </div>
-      <div class="admin-modal-body">
-        <div id="admin-messages-list" class="messages-list">
-          <!-- Dynamically populated by JS -->
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Toast Notification Container -->
   <div id="toast-container" class="toast-container"></div>
